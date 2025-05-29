@@ -223,35 +223,38 @@ function closeModal() {
 
 
 
+const form = document.getElementById('contact-form');
 
-document.getElementById("contact-form").addEventListener("submit", async (e) => {
-    e.preventDefault();
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
 
-    const form = e.target;
-    const formData = {
-        name: form.name.value,
-        email: form.email.value,
-        subject: form.subject.value,
-        message: form.message.value,
-    };
+  const formData = {
+    name: form.name.value,
+    email: form.email.value,
+    subject: form.subject.value,
+    message: form.message.value
+  };
 
-    try {
-        const response = await fetch("http://127.0.0.1:5000/send_mail", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(formData),
-        });
+  try {
+    const response = await fetch('https://webportfolio-36il.onrender.com/send_mail', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(formData)
+    });
 
-        const result = await response.json();
-        if (result.status === "success") {
-            alert("Message sent successfully! 💌");
-            form.reset();
-        } else {
-            alert("Error sending message: " + result.error);
-        }
-    } catch (err) {
-        alert("Server error: " + err.message);
+    const result = await response.json();
+
+    if (response.ok && result.status === 'success') {
+      alert('Message sent successfully! 💌');
+      form.reset();
+    } else {
+      alert('Failed to send message. Please try again later.');
+      console.error('Error:', result.error);
     }
+  } catch (error) {
+    alert('Oops! Something went wrong.');
+    console.error('Fetch error:', error);
+  }
 });
