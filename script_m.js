@@ -258,3 +258,26 @@ form.addEventListener('submit', async (e) => {
     console.error('Fetch error:', error);
   }
 });
+
+
+
+
+
+function checkScreenSize() {
+  const width = window.innerWidth;
+  const warning = document.getElementById('screen-warning');
+  const message = document.getElementById('screen-warning-message');
+
+  if (width <= 1200) {
+    message.innerHTML = "⚠️ This site is not optimized for mobile or smaller screens. Please use a laptop or PC for the best experience.";
+    warning.style.display = "flex";
+  } else if (width >= 1920) {
+    message.innerHTML = "⚠️ You're using an ultra-wide display. For the best experience, please view this site on a standard laptop or desktop screen.";
+    warning.style.display = "flex";
+  } else {
+    warning.style.display = "none";
+  }
+}
+
+window.addEventListener('load', checkScreenSize);
+window.addEventListener('resize', checkScreenSize);
